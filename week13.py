@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-
+import matplotlib.pyplot as plt
 from PIL import Image
 import time
 
@@ -47,6 +47,43 @@ if selected == "BMI Caculator":
 
 if selected == "Gap minder":
     st.title("Gap minder")
+
+    st.write("파일 불러오기")
+
+    data = pd.read_csv('gapminder.csv')
+    
+    year = st.slider("Select Year",1952,2007,1952,step = 5)
+
+    data = data[data['year']==year]
+    st.write(data)
+
+
+    colors = []
+    
+    for x in data['continent']:
+        if x == 'Asia':
+            colors.append('tomato')
+        elif x == 'Europe':
+            colors.append('blue')
+        elif x == 'Africa':
+            colors.append('yellowgreen')
+        elif x == 'Japan':
+            colors.append('orange')
+        else:
+            colors.append('pink')
+            
+    data['colors'] = colors
+
+    fig, ax = plt.subplots()
+    ax.scatter(data['gdpPercap'],data['lifeExp'], s =data['pop']*0.00002, color = data['colors'] )
+
+    st.pyplot(fig)
+    
+   
+    
+
+
+
 
 if selected == "국가별 통계":
     st.title("국가별 통계")
