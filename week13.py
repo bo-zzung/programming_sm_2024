@@ -14,26 +14,40 @@ def bmi_range(bmi):
     else:
         st.success('당신은 정상입니다!', icon="✅")
 
+
+
+selected = st.sidebar.selectbox("목차",("BMI Caculator","Gap minder","국가별 통계"))
+
+
 #bmi 
 
-st.title("체질량 지수 계산기")
-
-st.info("체질량 지수는 자신의 몸무게를 키의 제곱으로 나눈 값입니다.")
+if selected == "BMI Caculator":
 
 
-height = st.number_input(" 신장 (cm)",value = 160, step = 5)
-st.write("당신의 신장은  ", height, "cm" )
+    st.title("체질량 지수 계산기")
 
-weight = st.number_input(" 몸무게 (cm)",value = 50, step = 5)
-st.write(f"당신의 몸무게는  {weight} cm ")
+    st.info("체질량 지수는 자신의 몸무게를 키의 제곱으로 나눈 값입니다.")
 
-if st.button("계산", type="primary"):
-    bmi = weight / ((height/100)**2)
-    st.write(f"당신의 체질량 지수는 {bmi:.2f} 입니다")
-    bmi_range(bmi)
-    st.balloons()
-    
-    
 
-    st.image('Rabbit.png', caption='Resnet50 Result')
+    height = st.number_input(" 신장 (cm)",value = 160, step = 5)
+    st.write("당신의 신장은  ", height, "cm" )
+
+    weight = st.number_input(" 몸무게 (cm)",value = 50, step = 5)
+    st.write(f"당신의 몸무게는  {weight} cm ")
+
+    if st.button("계산", type="primary"):
+        bmi = weight / ((height/100)**2)
+        st.write(f"당신의 체질량 지수는 {bmi:.2f} 입니다")
+        bmi_range(bmi)
+        st.balloons()
+        
+            
+
+        st.image('Rabbit.png', caption='Resnet50 Result')
+
+if selected == "Gap minder":
+    st.title("Gap minder")
+
+if selected == "국가별 통계":
+    st.title("국가별 통계")
 
