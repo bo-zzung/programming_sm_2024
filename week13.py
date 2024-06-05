@@ -4,17 +4,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
 import time
+import func as my
 
+st.session_state.id = "박보정"
 
-def bmi_range(bmi):
-    if bmi >= 23:
-        st.warning('당신은 과체중입니다!', icon="⚠️")
-    elif bmi <= 18.5:
-        st.warning('당신은 저체중입니다!', icon="⚠️")
-    else:
-        st.success('당신은 정상입니다!', icon="✅")
-
-
+st.write(st.session_state.id,"님 반갑습니다!")
 
 selected = st.sidebar.selectbox("목차",("BMI Caculator","Gap minder","국가별 통계"))
 
@@ -38,7 +32,7 @@ if selected == "BMI Caculator":
     if st.button("계산", type="primary"):
         bmi = weight / ((height/100)**2)
         st.write(f"당신의 체질량 지수는 {bmi:.2f} 입니다")
-        bmi_range(bmi)
+        my.bmi_range(bmi)
         st.balloons()
         
             
@@ -88,3 +82,32 @@ if selected == "Gap minder":
 if selected == "국가별 통계":
     st.title("국가별 통계")
 
+    df = pd.read_csv("gapminder.csv")
+
+    country = df['country'].unique()
+ 
+    options = st.multiselect(
+    "Select Country",
+    country,
+    ["Korea, Rep."])
+
+    st.write("You selected:", options[0])
+    #x = options[0]
+    #st.write(df[df["country"]==x])
+
+    fig, ax =plt.subplots()
+    for x in options:
+        ax.plot(df[df["country"]==x]["year"], df[df["country"]==x]["gdpPercap"])
+    st.pyplot(fig)
+
+    fig1, ax1 =plt.subplots()
+    for x in options:
+        ax1.plot(df[df["country"]==x]["year"], df[df["country"]==x]["pop"])
+    st.pyplot(fig)
+
+    fig2, ax2 =plt.subplots()
+    for x in options:
+        ax2.plot(range(len(df[df["country"]==x]["year"])), df[df["country"]==x]["lifeExp"])
+        ax2.legend()
+        ax2.set_xticks(range(len(df[df["country"]==x]["pop"])),df[df["country"]==x]["year"])
+    st.pyplot(fig)
